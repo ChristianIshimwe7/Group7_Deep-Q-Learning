@@ -28,4 +28,11 @@ logs/
 models/
 results/
 tensorboard/
-dqn_model.zip
+
+# Keep summary table data if you want to track it
+!results/
+results/*
+!results/experiments.csv
+
+# Assignment requires submitting the trained policy zip
+!dqn_model.zip

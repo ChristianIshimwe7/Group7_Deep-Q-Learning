@@ -1,0 +1,2 @@
+member,experiment_number,experiment_name,tag,policy,learning_rate,gamma,batch_size,exploration_initial_eps,exploration_final_eps,exploration_fraction,timesteps,seed,mean_reward_last20,mean_episode_len_last20,total_episodes,model_path,best_model_path,log_path
+1,1,baseline,M1_E01_baseline,CnnPolicy,0.0001,0.99,32,1.0,0.01,0.1,50000,42,2.0,24.7,3793,models/M1_E01_baseline/dqn_model.zip,best/M1_E01_baseline/best_model.zip,logs/M1_E01_baseline
