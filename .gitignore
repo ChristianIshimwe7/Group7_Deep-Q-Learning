@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Build and test artifacts
+.pytest_cache/
+.mypy_cache/
+.coverage
+
+# OS/editor
+.DS_Store
+.vscode/
+
+# RL training artifacts (large/generated)
+best/
+logs/
+models/
+results/
+tensorboard/
+dqn_model.zip
