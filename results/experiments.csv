@@ -9,3 +9,15 @@ member,experiment_number,experiment_name,tag,policy,learning_rate,gamma,batch_si
 1,8,eps_end_05,M1_E08_eps_end_05,CnnPolicy,0.0001,0.99,32,1.0,0.05,0.1,100000,30000,42,2.0,22.65,5934,models/M1_E08_eps_end_05/dqn_model.zip,best/M1_E08_eps_end_05/best_model.zip,logs/M1_E08_eps_end_05
 1,9,slow_decay,M1_E09_slow_decay,CnnPolicy,0.0001,0.99,32,1.0,0.01,0.2,100000,30000,42,2.25,25.0,5992,models/M1_E09_slow_decay/dqn_model.zip,best/M1_E09_slow_decay/best_model.zip,logs/M1_E09_slow_decay
 1,10,mlp_policy,M1_E10_mlp_policy,MlpPolicy,0.0001,0.99,32,1.0,0.01,0.1,100000,30000,42,0.7,9.7,9325,models/M1_E10_mlp_policy/dqn_model.zip,best/M1_E10_mlp_policy/best_model.zip,logs/M1_E10_mlp_policy
+2,1,lr_2e4,M2_E01_lr_2e4,CnnPolicy,0.0002,0.99,32,1.0,0.01,0.1,50000,50000,42,1.35,17.55,3456,models/M2_E01_lr_2e4/dqn_model.zip,best/M2_E01_lr_2e4/best_model.zip,logs/M2_E01_lr_2e4
+2,1,lr_2e4,M2_E01_lr_2e4,CnnPolicy,0.0002,0.99,32,1.0,0.01,0.1,500000,50000,42,2.4,26.2,19619,models/M2_E01_lr_2e4/dqn_model.zip,best/M2_E01_lr_2e4/best_model.zip,logs/M2_E01_lr_2e4
+2,1,lr_2e4,M2_E01_lr_2e4,CnnPolicy,0.0002,0.99,32,1.0,0.01,0.1,100000,50000,42,2.75,31.75,5278,models/M2_E01_lr_2e4/dqn_model.zip,best/M2_E01_lr_2e4/best_model.zip,logs/M2_E01_lr_2e4
+2,2,gamma_98,M2_E02_gamma_98,CnnPolicy,0.0001,0.98,32,1.0,0.01,0.1,100000,50000,42,2.5,27.85,5831,models/M2_E02_gamma_98/dqn_model.zip,best/M2_E02_gamma_98/best_model.zip,logs/M2_E02_gamma_98
+2,3,batch_128,M2_E03_batch_128,CnnPolicy,0.0001,0.99,128,1.0,0.01,0.1,100000,50000,42,2.55,28.65,5349,models/M2_E03_batch_128/dqn_model.zip,best/M2_E03_batch_128/best_model.zip,logs/M2_E03_batch_128
+2,4,eps_start_05,M2_E04_eps_start_05,CnnPolicy,0.0001,0.99,32,0.5,0.01,0.1,100000,50000,42,1.7,19.5,5710,models/M2_E04_eps_start_05/dqn_model.zip,best/M2_E04_eps_start_05/best_model.zip,logs/M2_E04_eps_start_05
+2,5,eps_end_001,M2_E05_eps_end_001,CnnPolicy,0.0001,0.99,32,1.0,0.001,0.1,100000,50000,42,1.65,19.6,6098,models/M2_E05_eps_end_001/dqn_model.zip,best/M2_E05_eps_end_001/best_model.zip,logs/M2_E05_eps_end_001
+2,6,lr_5e4,M2_E06_lr_5e4,CnnPolicy,0.0005,0.99,32,1.0,0.01,0.1,100000,50000,42,2.9,32.8,4852,models/M2_E06_lr_5e4/dqn_model.zip,best/M2_E06_lr_5e4/best_model.zip,logs/M2_E06_lr_5e4
+2,7,combined_A,M2_E07_combined_A,CnnPolicy,0.0001,0.97,64,1.0,0.01,0.15,100000,50000,42,1.5,18.75,5794,models/M2_E07_combined_A/dqn_model.zip,best/M2_E07_combined_A/best_model.zip,logs/M2_E07_combined_A
+2,8,combined_B,M2_E08_combined_B,CnnPolicy,0.0002,0.98,64,1.0,0.01,0.1,100000,50000,42,3.3,35.75,4990,models/M2_E08_combined_B/dqn_model.zip,best/M2_E08_combined_B/best_model.zip,logs/M2_E08_combined_B
+2,9,fast_decay,M2_E09_fast_decay,CnnPolicy,0.0001,0.99,32,1.0,0.02,0.05,100000,50000,42,2.15,25.1,6155,models/M2_E09_fast_decay/dqn_model.zip,best/M2_E09_fast_decay/best_model.zip,logs/M2_E09_fast_decay
+2,10,lr_3e4,M2_E10_lr_3e4,CnnPolicy,0.0003,0.99,32,1.0,0.01,0.1,100000,50000,42,3.15,34.35,5405,models/M2_E10_lr_3e4/dqn_model.zip,best/M2_E10_lr_3e4/best_model.zip,logs/M2_E10_lr_3e4

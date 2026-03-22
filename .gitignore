@@ -23,11 +23,12 @@ env/
 .vscode/
 
 # RL training artifacts (large/generated)
-best/
+best/*
+!best/M*_best_model.zip
 # logs/
-models/
-results/
-tensorboard/
+# models/
+# results/
+# tensorboard/
 
 # Keep summary table data if you want to track it
 !results/
