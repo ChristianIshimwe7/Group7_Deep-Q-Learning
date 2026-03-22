@@ -1,0 +1,22 @@
+{
+  "member": 1,
+  "experiment_number": 4,
+  "experiment_name": "gamma_95",
+  "tag": "M1_E04_gamma_95",
+  "policy": "CnnPolicy",
+  "learning_rate": 0.0001,
+  "gamma": 0.95,
+  "batch_size": 32,
+  "exploration_initial_eps": 1.0,
+  "exploration_final_eps": 0.01,
+  "exploration_fraction": 0.1,
+  "timesteps": 100000,
+  "buffer_size": 30000,
+  "seed": 42,
+  "mean_reward_last20": 2.45,
+  "mean_episode_len_last20": 27.65,
+  "total_episodes": 5857,
+  "model_path": "models/M1_E04_gamma_95/dqn_model.zip",
+  "best_model_path": "best/M1_E04_gamma_95/best_model.zip",
+  "log_path": "logs/M1_E04_gamma_95"
+}

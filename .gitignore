@@ -24,7 +24,7 @@ env/
 
 # RL training artifacts (large/generated)
 best/
-logs/
+# logs/
 models/
 results/
 tensorboard/
