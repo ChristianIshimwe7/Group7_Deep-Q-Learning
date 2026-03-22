@@ -1,0 +1,22 @@
+{
+  "member": 2,
+  "experiment_number": 8,
+  "experiment_name": "combined_B",
+  "tag": "M2_E08_combined_B",
+  "policy": "CnnPolicy",
+  "learning_rate": 0.0002,
+  "gamma": 0.98,
+  "batch_size": 64,
+  "exploration_initial_eps": 1.0,
+  "exploration_final_eps": 0.01,
+  "exploration_fraction": 0.1,
+  "timesteps": 100000,
+  "buffer_size": 50000,
+  "seed": 42,
+  "mean_reward_last20": 3.3,
+  "mean_episode_len_last20": 35.75,
+  "total_episodes": 4990,
+  "model_path": "models/M2_E08_combined_B/dqn_model.zip",
+  "best_model_path": "best/M2_E08_combined_B/best_model.zip",
+  "log_path": "logs/M2_E08_combined_B"
+}

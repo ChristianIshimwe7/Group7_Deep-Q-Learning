@@ -1,0 +1,22 @@
+{
+  "member": 2,
+  "experiment_number": 6,
+  "experiment_name": "lr_5e4",
+  "tag": "M2_E06_lr_5e4",
+  "policy": "CnnPolicy",
+  "learning_rate": 0.0005,
+  "gamma": 0.99,
+  "batch_size": 32,
+  "exploration_initial_eps": 1.0,
+  "exploration_final_eps": 0.01,
+  "exploration_fraction": 0.1,
+  "timesteps": 100000,
+  "buffer_size": 50000,
+  "seed": 42,
+  "mean_reward_last20": 2.9,
+  "mean_episode_len_last20": 32.8,
+  "total_episodes": 4852,
+  "model_path": "models/M2_E06_lr_5e4/dqn_model.zip",
+  "best_model_path": "best/M2_E06_lr_5e4/best_model.zip",
+  "log_path": "logs/M2_E06_lr_5e4"
+}

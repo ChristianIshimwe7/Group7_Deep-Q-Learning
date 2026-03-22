@@ -1,0 +1,22 @@
+{
+  "member": 2,
+  "experiment_number": 3,
+  "experiment_name": "batch_128",
+  "tag": "M2_E03_batch_128",
+  "policy": "CnnPolicy",
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "batch_size": 128,
+  "exploration_initial_eps": 1.0,
+  "exploration_final_eps": 0.01,
+  "exploration_fraction": 0.1,
+  "timesteps": 100000,
+  "buffer_size": 50000,
+  "seed": 42,
+  "mean_reward_last20": 2.55,
+  "mean_episode_len_last20": 28.65,
+  "total_episodes": 5349,
+  "model_path": "models/M2_E03_batch_128/dqn_model.zip",
+  "best_model_path": "best/M2_E03_batch_128/best_model.zip",
+  "log_path": "logs/M2_E03_batch_128"
+}
