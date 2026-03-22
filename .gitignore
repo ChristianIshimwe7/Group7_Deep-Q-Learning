@@ -24,10 +24,10 @@ env/
 
 # RL training artifacts (large/generated)
 best/
-logs/
-models/
-results/
-tensorboard/
+# logs/
+# models/
+# results/
+# tensorboard/
 
 # Keep summary table data if you want to track it
 !results/
