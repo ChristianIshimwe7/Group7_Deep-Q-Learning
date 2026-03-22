@@ -1,0 +1,13 @@
+{
+  "tag": "M4_E01_baseline_m4",
+  "policy": "CnnPolicy",
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "batch_size": 32,
+  "exploration_initial_eps": 1.0,
+  "exploration_final_eps": 0.01,
+  "exploration_fraction": 0.1,
+  "total_timesteps": 500000,
+  "mean_reward_last20": 3.45,
+  "total_episodes": 18957
+}
