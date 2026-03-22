@@ -8,6 +8,7 @@ This repository trains and evaluates a DQN agent using Stable Baselines3 and Gym
 - Observation: Atari frames wrapped with `AtariWrapper`, stacked with `VecFrameStack(4)`
 - Action space: `Discrete(4)`
 - Reward: Brick hits increase reward
+- Link to scripts : https://www.youtube.com/shorts/SixaEsx-IwY
 
 ## Project Files
 
