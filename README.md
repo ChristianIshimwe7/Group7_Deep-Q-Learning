@@ -43,6 +43,43 @@ python train.py --member 1 --timesteps 500000 --seed 42
 python train.py --member 1 --exp 3 --timesteps 500000 --seed 42
 ```
 
+## Automated Member 1 Pipeline (No Manual One-by-One Runs)
+
+This script now supports two modes:
+
+- `full-only`: run selected experiments directly at full timesteps (best for your Kaggle plan)
+- `two-stage`: screening first, then rerun top-k at full timesteps
+
+Default behavior is `full-only`.
+
+### Full-only (all 10 experiments, resume-safe)
+
+```bash
+python3 run_member1_pipeline.py --mode full-only --member 1 --experiments 1,2,3,4,5,6,7,8,9,10 --full-timesteps 500000 --seed 42 --buffer-size-full 50000 --skip-completed
+```
+
+### Two-stage (screening then top-k full)
+
+```bash
+python3 run_member1_pipeline.py --mode two-stage --experiments 1,2,3,4,5,6,7,8,9,10 --screening-timesteps 200000 --top-k 3 --full-timesteps 500000 --seed 42 --skip-completed
+```
+
+### Quick defaults
+
+```bash
+python3 run_member1_pipeline.py
+```
+
+Useful variants:
+
+```bash
+# Use default full-only mode but custom subset
+python3 run_member1_pipeline.py --mode full-only --experiments 3,4,5,6,7,8,9,10 --skip-completed
+
+# Use two-stage mode with custom top-k
+python3 run_member1_pipeline.py --mode two-stage --screening-timesteps 150000 --top-k 2
+```
+
 ### Other members
 
 ```bash
