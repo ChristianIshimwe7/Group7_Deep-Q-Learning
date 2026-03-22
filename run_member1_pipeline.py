@@ -199,10 +199,7 @@ def main() -> None:
 
         print("\nPipeline complete.")
         print("Run this next to copy best full model:")
-        print(
-            f"{sys.executable} select_best_model.py --member {args.member} "
-            "--metric mean_reward_last20 --output dqn_model.zip"
-        )
+        print(f"{sys.executable} select_best_model.py --member {args.member} --metric mean_reward_last20")
         return
 
     run_many(
@@ -257,10 +254,7 @@ def main() -> None:
 
     print("\nPipeline complete.")
     print("Run this next to copy best full model:")
-    print(
-        f"{sys.executable} select_best_model.py --member {args.member} "
-        "--metric mean_reward_last20 --output dqn_model.zip"
-    )
+    print(f"{sys.executable} select_best_model.py --member {args.member} --metric mean_reward_last20")
 
 
 if __name__ == "__main__":

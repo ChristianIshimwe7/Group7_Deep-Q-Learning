@@ -25,7 +25,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--csv", default="results/experiments.csv", help="Path to experiment CSV")
     parser.add_argument("--member", type=int, default=1, choices=[1, 2, 3, 4])
     parser.add_argument("--metric", default="mean_reward_last20", help="Numeric metric column to rank")
-    parser.add_argument("--output", default="dqn_model.zip", help="Output model path")
+    parser.add_argument(
+        "--output",
+        default=None,
+        help="Output model path (default: best/M{member}_best_model.zip)",
+    )
     parser.add_argument(
         "--mode",
         default="max",
@@ -71,39 +75,38 @@ def main() -> None:
     valid_rows: list[dict[str, Any]] = []
     for row in member_rows:
         metric_val = to_float(row.get(args.metric))
+        model_path_raw = str(row.get("model_path", "")).strip()
+        if not model_path_raw:
+            continue
+        model_zip = resolve_model_zip(model_path_raw)
+        if not model_zip.exists():
+            continue
         if metric_val is None:
             continue
         row["_metric_val"] = metric_val
+        row["_model_zip"] = model_zip
         valid_rows.append(row)
 
     if not valid_rows:
         raise ValueError(
-            f"No valid numeric values for metric '{args.metric}' for member {args.member}"
+            f"No valid rows with numeric metric '{args.metric}' and an existing model file "
+            f"for member {args.member}"
         )
 
     reverse = args.mode == "max"
     valid_rows.sort(key=lambda r: r["_metric_val"], reverse=reverse)
     best = valid_rows[0]
 
-    model_path_raw = best.get("model_path", "").strip()
-    if not model_path_raw:
-        raise ValueError("Best row has empty model_path")
+    model_zip = best["_model_zip"]
 
-    model_zip = resolve_model_zip(model_path_raw)
-    if not model_zip.exists():
-        raise FileNotFoundError(
-            f"Model file not found on disk: {model_zip}\n"
-            "Train may not have finished, or paths in CSV are stale."
-        )
-
-    output_path = Path(args.output)
+    output_path = Path(args.output) if args.output else Path(f"best/M{args.member}_best_model.zip")
     output_dir = output_path.parent
     if output_dir and str(output_dir) != ".":
         output_dir.mkdir(parents=True, exist_ok=True)
 
     shutil.copy2(model_zip, output_path)
 
-    print("Best run selected")
+    print("Best run selected (member-level across all experiments)")
     print("-" * 60)
     print(f"member: {best.get('member')}")
     print(f"experiment: E{best.get('experiment_number')}_{best.get('experiment_name')}")
