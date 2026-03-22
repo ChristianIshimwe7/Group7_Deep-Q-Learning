@@ -1,195 +1,165 @@
 # Formative 3 - Deep Q Learning (ALE/Breakout-v5)
 
-This repository trains and evaluates a DQN agent using Stable Baselines3 and Gymnasium.
+This repository contains training and evaluation code for a Deep Q-Network (DQN) agent using Stable Baselines3 and Gymnasium, with experiment tracking for group members.
 
-## Environment
+## Assignment Coverage Checklist
 
-- Name: `ALE/Breakout-v5`
-- Observation: Atari frames wrapped with `AtariWrapper`, stacked with `VecFrameStack(4)`
-- Action space: `Discrete(4)`
-- Reward: Brick hits increase reward
-- Link to scripts : https://www.youtube.com/shorts/SixaEsx-IwY
+- [x] Atari environment selected: `ALE/Breakout-v5`
+- [x] `train.py` implemented for DQN training and model saving
+- [x] `play.py` implemented for loading model and greedy gameplay
+- [x] MLP vs CNN comparison included (Member 1 experiment E10 uses `MlpPolicy`)
+- [x] Hyperparameter tuning documented with experiment table(s)
+- [x] Best-performing model identified for final demo
+- [x] Gameplay video link included
 
-## Project Files
+## Environment and RL Setup
 
-- `train.py`: Trains DQN and saves models and logs
-- `play.py`: Loads a trained model and runs greedy gameplay
-- `requirements.txt`: Python dependencies
+- Environment: `ALE/Breakout-v5`
+- Wrapper pipeline: `AtariWrapper` + `VecFrameStack(4)`
+- Agent: `DQN` (Stable Baselines3)
+- Evaluation policy: Greedy Q-policy (`deterministic=True` in `model.predict`)
 
-## Setup
+Gameplay / script demo video (used in presentation):
+
+- https://www.youtube.com/shorts/SixaEsx-IwY
+
+## Repository Layout
+
+- Root folder contains the shared group pipeline and Member 1/2 outputs.
+- Member 4 used a separate working directory for training and logs:
+	- `grp_mbr4_christian/`
+
+This is intentional and documented here so reviewers can find all artifacts.
+
+## Main Files
+
+- `train.py`: Shared training script with multi-member experiment presets.
+- `play.py`: Shared evaluation script with greedy action selection.
+- `run_member1_pipeline.py`: Optional automation script for running Member 1 experiments.
+- `select_best_model.py`: Utility to pick best model from tracked experiments.
+
+## Installation
 
 ```bash
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Training
+## How to Train
 
-### Member 1 quick smoke test
-
-```bash
-python train.py --member 1 --exp 1 --timesteps 50000 --seed 42
-```
-
-### Member 1 full 10 experiments
+### Shared root experiments (Members 1-3 and configured Member 4 list)
 
 ```bash
-python train.py --member 1 --timesteps 500000 --seed 42
+# Run all experiments configured for one member
+python3 train.py --member 1 --timesteps 100000 --seed 42
+
+# Run one specific experiment
+python3 train.py --member 1 --exp 10 --timesteps 100000 --seed 42
 ```
 
-### Run one specific experiment
+### Member 4 separate folder experiments
 
 ```bash
-python train.py --member 1 --exp 3 --timesteps 500000 --seed 42
+cd grp_mbr4_christian
+python3 train.py --exp 1 --timesteps 500000
+python3 train.py --exp 2 --timesteps 500000
 ```
 
-## Automated Member 1 Pipeline (No Manual One-by-One Runs)
+## How to Play (Evaluation)
 
-This script now supports two modes:
-
-- `full-only`: run selected experiments directly at full timesteps (best for your Kaggle plan)
-- `two-stage`: screening first, then rerun top-k at full timesteps
-
-Default behavior is `full-only`.
-
-### Full-only (all 10 experiments, resume-safe)
+### Root script usage
 
 ```bash
-python3 run_member1_pipeline.py --mode full-only --member 1 --experiments 1,2,3,4,5,6,7,8,9,10 --full-timesteps 500000 --seed 42 --buffer-size-full 50000 --skip-completed
+python3 play.py --episodes 5
+python3 play.py --model models/M1_E01_baseline/dqn_model --episodes 5
+python3 play.py --model models/M1_E01_baseline/dqn_model --no-render --episodes 10
 ```
 
-### Two-stage (screening then top-k full)
+### Play Member 4 best model (separate directory)
 
 ```bash
-python3 run_member1_pipeline.py --mode two-stage --experiments 1,2,3,4,5,6,7,8,9,10 --screening-timesteps 200000 --top-k 3 --full-timesteps 500000 --seed 42 --skip-completed
+cd grp_mbr4_christian
+python3 play.py --model models/M4_E01_baseline_m4/dqn_model --episodes 5
 ```
 
-### Quick defaults
+## Output Artifacts
 
-```bash
-python3 run_member1_pipeline.py
-```
+Each run generates:
 
-Useful variants:
-
-```bash
-# Use default full-only mode but custom subset
-python3 run_member1_pipeline.py --mode full-only --experiments 3,4,5,6,7,8,9,10 --skip-completed
-
-# Use two-stage mode with custom top-k
-python3 run_member1_pipeline.py --mode two-stage --screening-timesteps 150000 --top-k 2
-```
-
-### Other members
-
-```bash
-python train.py --member 2 --timesteps 500000 --seed 42
-python train.py --member 3 --timesteps 500000 --seed 42
-python train.py --member 4 --timesteps 500000 --seed 42
-```
-
-## Play / Evaluation
-
-Load latest root model (`dqn_model.zip`):
-
-```bash
-python play.py --episodes 5
-```
-
-Load a specific experiment model:
-
-```bash
-python play.py --model models/M1_E01_baseline/dqn_model --episodes 5
-```
-
-Headless run:
-
-```bash
-python play.py --model models/M1_E01_baseline/dqn_model --no-render --episodes 10
-```
-
-## Select Best Model (Member 1)
-
-After your 10 runs are complete, pick the best Member 1 model from
-`results/experiments.csv` and copy it to `best/M1_best_model.zip`:
-
-```bash
-python3 select_best_model.py --member 1 --metric mean_reward_last20
-```
-
-Then test the copied model:
-
-```bash
-python3 play.py --model best/M1_best_model --episodes 5
-```
-
-## Outputs
-
-Each experiment writes:
-
-- Model: `models/<TAG>/dqn_model.zip`
-- Best eval model: `best/<TAG>/best_model.zip`
-- Best per-member model: `best/M<member>_best_model.zip`
-- Eval logs + metadata: `logs/<TAG>/`
+- Trained model: `models/<TAG>/dqn_model.zip`
+- Best checkpoint (eval callback): `best/<TAG>/best_model.zip`
+- Run metadata: `logs/<TAG>/meta.json` (when available)
+- Evaluation arrays: `logs/<TAG>/evaluations.npz`
 - TensorBoard logs: `tensorboard/<TAG>/`
-- Aggregated table: `results/experiments.csv`
+- Aggregate results CSV: `results/experiments.csv`
 
-Example tag format:
+## Hyperparameter Tuning Results
 
-- `M1_E01_baseline`
+### Member 1 (10 experiments completed)
 
-## Hyperparameter Table 
+Source: `results/experiments.csv`
 
-Table filled with observed behavior from member's experiments.
+| Member   | Experiment     | Policy    | lr   | gamma | batch_size | eps_start | eps_end | eps_fraction | timesteps | mean_reward_last20 | mean_episode_len_last20 | Behavior notes                                             |
+| -------- | -------------- | --------- | ---- | ----- | ---------- | --------- | ------- | ------------ | --------- | ------------------ | ----------------------- | ---------------------------------------------------------- |
+| Member 1 | E01_baseline   | CnnPolicy | 1e-4 | 0.99  | 32         | 1.0       | 0.01    | 0.10         | 100000    | 2.45               | 28.90                   | Stable baseline.                                           |
+| Member 1 | E02_high_lr    | CnnPolicy | 1e-3 | 0.99  | 32         | 1.0       | 0.01    | 0.10         | 100000    | 2.45               | 26.10                   | Similar reward to baseline, shorter episodes.              |
+| Member 1 | E03_low_lr     | CnnPolicy | 5e-5 | 0.99  | 32         | 1.0       | 0.01    | 0.10         | 100000    | 2.20               | 26.25                   | Slower learning.                                           |
+| Member 1 | E04_gamma_95   | CnnPolicy | 1e-4 | 0.95  | 32         | 1.0       | 0.01    | 0.10         | 100000    | 2.45               | 27.65                   | Close to baseline.                                         |
+| Member 1 | E05_gamma_999  | CnnPolicy | 1e-4 | 0.999 | 32         | 1.0       | 0.01    | 0.10         | 100000    | 1.75               | 22.30                   | Performance dropped with very high gamma.                  |
+| Member 1 | E06_batch_64   | CnnPolicy | 1e-4 | 0.99  | 64         | 1.0       | 0.01    | 0.10         | 100000    | 2.45               | 27.00                   | Stable; no clear gain over baseline.                       |
+| Member 1 | E07_batch_16   | CnnPolicy | 1e-4 | 0.99  | 16         | 1.0       | 0.01    | 0.10         | 100000    | 2.10               | 25.15                   | Slightly noisier and weaker.                               |
+| Member 1 | E08_eps_end_05 | CnnPolicy | 1e-4 | 0.99  | 32         | 1.0       | 0.05    | 0.10         | 100000    | 2.00               | 22.65                   | More exploration late in training reduced score.           |
+| Member 1 | E09_slow_decay | CnnPolicy | 1e-4 | 0.99  | 32         | 1.0       | 0.01    | 0.20         | 100000    | 2.25               | 25.00                   | Slower epsilon decay gave moderate results.                |
+| Member 1 | E10_mlp_policy | MlpPolicy | 1e-4 | 0.99  | 32         | 1.0       | 0.01    | 0.10         | 100000    | 0.70               | 9.70                    | MLP underperformed strongly vs CNN for image observations. |
 
-Member 1 experiments
-| Member   | Experiment     | policy    |   lr | gamma | batch_size | eps_start | eps_end | eps_fraction | mean_reward_last20 | mean_episode_len_last20 | Behavior notes |
-| -------- | -------------- | --------- | ---: | ----: | ---------: | --------: | ------: | -----------: | -----------------: | ----------------------: | -------------- |
-| Member 1 | E01_baseline   | CnnPolicy | 1e-4 |  0.99 |         32 |       1.0 |    0.01 |         0.10 |                    |                         |                |
-| Member 1 | E02_high_lr    | CnnPolicy | 1e-3 |  0.99 |         32 |       1.0 |    0.01 |         0.10 |                    |                         |                |
-| Member 1 | E03_low_lr     | CnnPolicy | 5e-5 |  0.99 |         32 |       1.0 |    0.01 |         0.10 |                    |                         |                |
-| Member 1 | E04_gamma_95   | CnnPolicy | 1e-4 |  0.95 |         32 |       1.0 |    0.01 |         0.10 |                    |                         |                |
-| Member 1 | E05_gamma_999  | CnnPolicy | 1e-4 | 0.999 |         32 |       1.0 |    0.01 |         0.10 |                    |                         |                |
-| Member 1 | E06_batch_64   | CnnPolicy | 1e-4 |  0.99 |         64 |       1.0 |    0.01 |         0.10 |                    |                         |                |
-| Member 1 | E07_batch_16   | CnnPolicy | 1e-4 |  0.99 |         16 |       1.0 |    0.01 |         0.10 |                    |                         |                |
-| Member 1 | E08_eps_end_05 | CnnPolicy | 1e-4 |  0.99 |         32 |       1.0 |    0.05 |         0.10 |                    |                         |                |
-| Member 1 | E09_slow_decay | CnnPolicy | 1e-4 |  0.99 |         32 |       1.0 |    0.01 |         0.20 |                    |                         |                |
-| Member 1 | E10_mlp_policy | MlpPolicy | 1e-4 |  0.99 |         32 |       1.0 |    0.01 |         0.10 |                    |                         |                |
+### Member 2 (10 experiments completed)
 
-Member 2 experiments
+Source: `results/experiments.csv`
 
-All experiments were initially run at 100,000 timesteps to compare configurations efficiently. Selected experiments were extended to 500,000 timesteps for deeper evaluation.
+| Member   | Experiment       | Policy    | lr   | gamma | batch_size | eps_start | eps_end | eps_fraction | timesteps | mean_reward_last20 | mean_episode_len_last20 | Behavior notes                                 |
+| -------- | ---------------- | --------- | ---- | ----- | ---------- | --------- | ------- | ------------ | --------- | ------------------ | ----------------------- | ---------------------------------------------- |
+| Member 2 | E01_lr_2e4       | CnnPolicy | 2e-4 | 0.99  | 32         | 1.0       | 0.01    | 0.10         | 100000    | 2.75               | 31.75                   | Strong baseline variant.                       |
+| Member 2 | E02_gamma_98     | CnnPolicy | 1e-4 | 0.98  | 32         | 1.0       | 0.01    | 0.10         | 100000    | 2.50               | 27.85                   | Stable, slightly weaker than E01.              |
+| Member 2 | E03_batch_128    | CnnPolicy | 1e-4 | 0.99  | 128        | 1.0       | 0.01    | 0.10         | 100000    | 2.55               | 28.65                   | Stable with larger batch.                      |
+| Member 2 | E04_eps_start_05 | CnnPolicy | 1e-4 | 0.99  | 32         | 0.5       | 0.01    | 0.10         | 100000    | 1.70               | 19.50                   | Lower initial exploration hurt early learning. |
+| Member 2 | E05_eps_end_001  | CnnPolicy | 1e-4 | 0.99  | 32         | 1.0       | 0.001   | 0.10         | 100000    | 1.65               | 19.60                   | Too-greedy end phase hurt performance.         |
+| Member 2 | E06_lr_5e4       | CnnPolicy | 5e-4 | 0.99  | 32         | 1.0       | 0.01    | 0.10         | 100000    | 2.90               | 32.80                   | Faster learning; high-performing setup.        |
+| Member 2 | E07_combined_A   | CnnPolicy | 1e-4 | 0.97  | 64         | 1.0       | 0.01    | 0.15         | 100000    | 1.50               | 18.75                   | Weakest combined configuration.                |
+| Member 2 | E08_combined_B   | CnnPolicy | 2e-4 | 0.98  | 64         | 1.0       | 0.01    | 0.10         | 100000    | 3.30               | 35.75                   | Best Member 2 result.                          |
+| Member 2 | E09_fast_decay   | CnnPolicy | 1e-4 | 0.99  | 32         | 1.0       | 0.02    | 0.05         | 100000    | 2.15               | 25.10                   | Mixed impact from faster decay.                |
+| Member 2 | E10_lr_3e4       | CnnPolicy | 3e-4 | 0.99  | 32         | 1.0       | 0.01    | 0.10         | 100000    | 3.15               | 34.35                   | Second-best Member 2 result.                   |
 
-| Member   | Experiment       | Policy    | lr   | gamma | batch_size | eps_start | eps_end | eps_fraction | timesteps | mean_reward_last20 | mean_episode_len_last20 | Behavior notes                                           |
-| -------- | ---------------- | --------- | ---- | ----- | ---------- | --------- | ------- | ------------ | --------- | ------------------ | ----------------------- | -------------------------------------------------------- |
-| Member 2 | E01_lr_2e4       | CnnPolicy | 2e-4 | 0.99  | 32         | 1.0       | 0.01    | 0.10         | 100000    | 2.75               | 31.8                    | Steady improvement; stronger than default learning rate. |
-| Member 2 | E02_gamma_98     | CnnPolicy | 1e-4 | 0.98  | 32         | 1.0       | 0.01    | 0.10         | 100000    | 2.50               | 27.9                    | Stable but slightly weaker than E01.                     |
-| Member 2 | E03_batch_128    | CnnPolicy | 1e-4 | 0.99  | 128        | 1.0       | 0.01    | 0.10         | 100000    | 2.55               | 28.6                    | Larger batch gave fairly stable learning.                |
-| Member 2 | E04_eps_start_05 | CnnPolicy | 1e-4 | 0.99  | 32         | 0.5       | 0.01    | 0.10         | 100000    | 1.70               | 19.5                    | Lower starting exploration hurt performance.             |
-| Member 2 | E05_eps_end_001  | CnnPolicy | 1e-4 | 0.99  | 32         | 1.0       | 0.001   | 0.10         | 100000    | 1.65               | 19.6                    | Very low final exploration reduced performance.          |
-| Member 2 | E06_lr_5e4       | CnnPolicy | 5e-4 | 0.99  | 32         | 1.0       | 0.01    | 0.10         | 100000    | 2.90               | 32.8                    | Faster learning rate performed well.                     |
-| Member 2 | E07_combined_A   | CnnPolicy | 1e-4 | 0.97  | 64         | 1.0       | 0.01    | 0.15         | 100000    | 1.50               | 18.8                    | This combination was the weakest overall.                |
-| Member 2 | E08_combined_B   | CnnPolicy | 2e-4 | 0.98  | 64         | 1.0       | 0.01    | 0.10         | 100000    | 3.30               | 35.8                    | Best overall; strongest reward and longer survival.      |
-| Member 2 | E09_fast_decay   | CnnPolicy | 1e-4 | 0.99  | 32         | 1.0       | 0.02    | 0.05         | 100000    | 2.15               | 25.1                    | Faster decay gave mixed results.                         |
-| Member 2 | E10_lr_3e4       | CnnPolicy | 3e-4 | 0.99  | 32         | 1.0       | 0.01    | 0.10         | 100000    | 3.15               | 34.4                    | Very strong result; second best after E08.               |
+Extended run recorded:
 
-### Extended Run (500k Timesteps)
+| Member   | Experiment | timesteps | mean_reward_last20 |
+| -------- | ---------- | --------- | ------------------ |
+| Member 2 | E01_lr_2e4 | 500000    | 2.40               |
 
-| Member   | Experiment | Timesteps | mean_reward_last20 | Notes                                                       |
-| -------- | ---------- | --------- | ------------------ | ----------------------------------------------------------- |
-| Member 2 | E01_lr_2e4 | 500000    | 2.40               | Full-length run completed separately for deeper evaluation. |
+### Member 4 (separate directory; best final model comes from here)
 
-## Key Insights — Member 2
+Source: `grp_mbr4_christian/logs/*`
 
-The best performing experiment was E08_combined_B, followed by E10_lr_3e4 and E06_lr_5e4. These configurations showed that moderately higher learning rates and balanced parameter combinations improved performance.
+| Member   | Experiment          | Policy    | lr   | gamma | batch_size | eps_start | eps_end | eps_fraction | timesteps            | mean_reward_last20                          | mean_episode_len_last20  | Evidence                                                                   |
+| -------- | ------------------- | --------- | ---- | ----- | ---------- | --------- | ------- | ------------ | -------------------- | ------------------------------------------- | ------------------------ | -------------------------------------------------------------------------- |
+| Member 4 | M4_E01_baseline_m4  | CnnPolicy | 1e-4 | 0.99  | 32         | 1.0       | 0.01    | 0.10         | 500000               | 3.45 (train meta) / 2.69 (eval npz summary) | 28.89 (eval npz summary) | `grp_mbr4_christian/logs/M4_E01_baseline_m4/meta.json` + `evaluations.npz` |
+| Member 4 | M4_E02_eps_start_08 | CnnPolicy | 1e-4 | 0.99  | 32         | 0.8       | 0.01    | 0.10         | not recorded in meta | 1.60 (eval npz summary, 4 eval points)      | 18.45 (eval npz summary) | `grp_mbr4_christian/logs/M4_E02_eps_start_08/evaluations.npz`              |
 
-Experiments with reduced exploration, such as E04 and E05, performed worse, showing that exploration is important for learning in early stages.
+## Final Model Used in Presentation
 
-Overall, learning rate and combined parameter tuning had the biggest impact on performance.
+Best model selected for final group demo:
 
-## Notes for Presentation
+- Member: 4
+- Run: `M4_E01_baseline_m4`
+- Why chosen: strongest available score among documented runs and best gameplay behavior during testing
+- Model path: `grp_mbr4_christian/models/M4_E01_baseline_m4/dqn_model.zip`
+- Best checkpoint path: `grp_mbr4_christian/best/M4_E01_baseline_m4/best_model.zip`
 
-- Compare `CnnPolicy` vs `MlpPolicy` directly (Member 1 E10)
-- Use `results/experiments.csv` and per-run `logs/<TAG>/meta.json` for documented evidence
-- Record gameplay clip with `play.py` using the best model
+## Key Insights for Presentation (Decision-Making)
+
+- CNN vs MLP: CNN clearly outperformed MLP on Atari visual input (Member 1 E10 underperformed).
+- Learning rate: Moderate increases (for example Member 2 E08/E10 settings) improved performance in multiple runs.
+- Exploration settings: Too little exploration or too-greedy final epsilon hurt performance.
+- Gamma sensitivity: Very high gamma (0.999 in Member 1 E05) reduced near-term learning quality.
+- Final choice rationale: Member 4 baseline run produced the strongest practical gameplay for final demo.
+
