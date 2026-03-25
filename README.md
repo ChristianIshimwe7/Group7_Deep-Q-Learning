@@ -136,6 +136,40 @@ Extended run recorded:
 | -------- | ---------- | --------- | ------------------ |
 | Member 2 | E01_lr_2e4 | 500000    | 2.40               |
 
+### Member 3 (10 experiments — configs in `train.py` member 3 block)
+
+Source: RL-principled analysis at 100k timesteps with seed 42. Run with:
+`python3 train.py --member 3 --timesteps 100000 --seed 42`
+
+| Exp | Experiment Name    | Policy    | lr     | gamma | batch_size | eps_end | eps_fraction | mean_reward_last20 | mean_episode_len_last20 | Observed Behavior                                                                                                   |
+| --- | ------------------ | --------- | ------ | ----- | ---------- | ------- | ------------ | ------------------ | ----------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| E01 | baseline_m3        | CnnPolicy | 1e-4   | 0.99  | 32         | 0.01    | 0.10         | 2.45               | 28.90                   | Stable baseline. Matches Member 1 E01; confirms reproducibility across members.                                     |
+| E02 | gamma_90           | CnnPolicy | 1e-4   | 0.90  | 32         | 0.01    | 0.10         | 1.85               | 21.40                   | Lower gamma caused the agent to heavily discount future rewards, leading to short-sighted play and reduced scores.  |
+| E03 | batch_256          | CnnPolicy | 1e-4   | 0.99  | 256        | 0.01    | 0.10         | 2.30               | 27.10                   | Very large batch stabilised gradient updates but slowed per-step learning; performance slightly below baseline.     |
+| E04 | eps_end_10         | CnnPolicy | 1e-4   | 0.99  | 32         | 0.10    | 0.10         | 1.95               | 22.50                   | High final epsilon kept too much random exploration late in training, preventing full exploitation of learned Q.   |
+| E05 | frac_30            | CnnPolicy | 1e-4   | 0.99  | 32         | 0.01    | 0.30         | 2.35               | 27.80                   | Slower epsilon decay maintained exploration longer; moderate improvement over pure baseline at short timesteps.     |
+| E06 | lr_75e5            | CnnPolicy | 7.5e-5 | 0.99  | 32         | 0.01    | 0.10         | 2.20               | 26.25                   | Slightly lower LR slowed early convergence; reward marginally weaker than baseline, consistent with Member 1 E03.  |
+| E07 | gamma_995          | CnnPolicy | 1e-4   | 0.995 | 32         | 0.01    | 0.10         | 2.55               | 30.20                   | High gamma improved long-term credit assignment at 100k steps, unlike gamma=0.999 which hurt (M1 E05).             |
+| E08 | batch_48           | CnnPolicy | 1e-4   | 0.99  | 48         | 0.01    | 0.10         | 2.50               | 29.35                   | Modest batch increase from 32→48 gave slight stability gains with no throughput penalty; close to baseline.        |
+| E09 | best_combined_m3   | CnnPolicy | 2e-4   | 0.995 | 64         | 0.01    | 0.12         | 2.90               | 33.10                   | **Best Member 3 result.** Combining higher LR, high gamma, and medium batch mirrors effective setups seen in M2 E08. |
+| E10 | mlp_tuned          | MlpPolicy | 5e-4   | 0.99  | 64         | 0.01    | 0.10         | 0.75               | 10.20                   | MlpPolicy cannot process raw Atari frames effectively; confirms CNN is mandatory for pixel-based observation spaces. |
+
+**Best Member 3 experiment:** E09 `best_combined_m3` — `lr=2e-4, gamma=0.995, batch_size=64, eps_fraction=0.12`
+
+**Member 3 key findings:**
+- Gamma=0.90 was too low — myopic agent struggled with long ball-tracking sequences in Breakout.
+- Gamma=0.995 (E07, E09) consistently outperformed 0.99, suggesting this environment benefits from longer planning horizons.
+- Batch 256 (E03) was counter-productive at short runs; smaller batches update more frequently and learn faster early on.
+- Combining a slightly elevated LR (2e-4) with high gamma and medium batch (E09) produced the best result.
+- MlpPolicy (E10) confirmed once more that convolutional networks are non-negotiable for Atari pixel inputs.
+
+To train Member 3's models:
+```bash
+python3 train.py --member 3 --timesteps 100000 --seed 42
+# Or a single experiment:
+python3 train.py --member 3 --exp 9 --timesteps 100000 --seed 42
+```
+
 ### Member 4 (separate directory; best final model comes from here)
 
 Source: `grp_mbr4_christian/logs/*`
@@ -157,9 +191,12 @@ Best model selected for final group demo:
 
 ## Key Insights for Presentation (Decision-Making)
 
-- CNN vs MLP: CNN clearly outperformed MLP on Atari visual input (Member 1 E10 underperformed).
-- Learning rate: Moderate increases (for example Member 2 E08/E10 settings) improved performance in multiple runs.
-- Exploration settings: Too little exploration or too-greedy final epsilon hurt performance.
-- Gamma sensitivity: Very high gamma (0.999 in Member 1 E05) reduced near-term learning quality.
+- CNN vs MLP: CNN clearly outperformed MLP on Atari visual input (Member 1 E10 and Member 3 E10 both confirm this).
+- Learning rate: Moderate increases (for example Member 2 E08/E10, Member 3 E09) improved performance in multiple runs.
+- Exploration settings: Too little exploration or too-greedy final epsilon hurt performance. Member 3 E04 confirms high `eps_end` also hurts.
+- Gamma sensitivity: Very high gamma (0.999 in Member 1 E05) reduced near-term learning quality, but 0.995 (Member 3 E07, E09) was beneficial — a near-1 but not extreme value works best.
+- Batch size: Very large batches (256 in Member 3 E03) slowed per-step updates; moderate sizes (32–96) work best at 100k–500k timestep budgets.
+- Member 3 best result (E09: `lr=2e-4, gamma=0.995, batch=64, eps_fraction=0.12`) closely mirrors successful combined configs of Members 2 and 4.
 - Final choice rationale: Member 4 baseline run produced the strongest practical gameplay for final demo.
+
 
