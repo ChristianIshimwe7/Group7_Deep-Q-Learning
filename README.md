@@ -177,7 +177,7 @@ Source: `grp_mbr4_christian/logs/*`
 
 | Exp | Experiment Name    | Policy    | lr     | gamma | batch_size | eps_end | eps_fraction | mean_reward_last20 | mean_episode_len_last20 | Observed Behavior                                                                                                   |
 | --- | ------------------ | --------- | ------ | ----- | ---------- | ------- | ------------ | ------------------ | ----------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| E01 | baseline_m3        | CnnPolicy | 1e-4   | 0.97  | 32         | 0.01    | 0.10         | 2.35               | 28.90                   | Stable baseline. Matches Member 1 E01; confirms reproducibility across members.                                     |
+| E01 | baseline_m3        | CnnPolicy | 1e-4   | 0.97  | 32         | 0.01    | 0.10         | 2.35               | 27.90                   | Stable baseline. Matches Member 1 E01; confirms reproducibility across members.                                     |
 | E02 | gamma_90           | CnnPolicy | 1e-4   | 0.90  | 32         | 0.01    | 0.10         | 1.85               | 21.40                   | Lower gamma caused the agent to heavily discount future rewards, leading to short-sighted play and reduced scores.  |
 | E03 | batch_256          | CnnPolicy | 1e-4   | 0.99  | 256        | 0.01    | 0.10         | 2.30               | 27.10                   | Very large batch stabilised gradient updates but slowed per-step learning; performance slightly below baseline.     |
 | E04 | eps_end_10         | CnnPolicy | 1e-4   | 0.99  | 32         | 0.10    | 0.10         | 1.95               | 22.50                   | High final epsilon kept too much random exploration late in training, preventing full exploitation of learned Q.   |
@@ -186,7 +186,7 @@ Source: `grp_mbr4_christian/logs/*`
 | E07 | gamma_995          | CnnPolicy | 1e-4   | 0.995 | 32         | 0.01    | 0.10         | 2.55               | 30.20                   | High gamma improved long-term credit assignment at 100k steps, unlike gamma=0.999 which hurt (M1 E05).             |
 | E08 | batch_48           | CnnPolicy | 1e-4   | 0.99  | 48         | 0.01    | 0.10         | 2.50               | 29.35                   | Modest batch increase from 32→48 gave slight stability gains with no throughput penalty; close to baseline.        |
 | E09 | best_combined_m3   | CnnPolicy | 2e-4   | 0.995 | 64         | 0.01    | 0.12         | 2.90               | 33.10                   | **Best Member 3 result.** Combining higher LR, high gamma, and medium batch mirrors effective setups seen in M2 E08. |
-| E10 | mlp_tuned          | MlpPolicy | 5e-4   | 0.99  | 64         | 0.01    | 0.10         | 0.75               | 10.20                   | MlpPolicy cannot process raw Atari frames effectively; confirms CNN is mandatory for pixel-based observation spaces. |
+| E10 | mlp_tuned          | MlpPolicy | 5e-4   | 0.99  | 64         | 0.01    | 0.10         | 0.75               | 11.20                   | MlpPolicy cannot process raw Atari frames effectively; confirms CNN is mandatory for pixel-based observation spaces. |
 ## Final Model Used in Presentation
 
 Best model selected for final group demo:
