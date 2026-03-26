@@ -21,3 +21,14 @@ member,experiment_number,experiment_name,tag,policy,learning_rate,gamma,batch_si
 2,8,combined_B,M2_E08_combined_B,CnnPolicy,0.0002,0.98,64,1.0,0.01,0.1,100000,50000,42,3.3,35.75,4990,models/M2_E08_combined_B/dqn_model.zip,best/M2_E08_combined_B/best_model.zip,logs/M2_E08_combined_B
 2,9,fast_decay,M2_E09_fast_decay,CnnPolicy,0.0001,0.99,32,1.0,0.02,0.05,100000,50000,42,2.15,25.1,6155,models/M2_E09_fast_decay/dqn_model.zip,best/M2_E09_fast_decay/best_model.zip,logs/M2_E09_fast_decay
 2,10,lr_3e4,M2_E10_lr_3e4,CnnPolicy,0.0003,0.99,32,1.0,0.01,0.1,100000,50000,42,3.15,34.35,5405,models/M2_E10_lr_3e4/dqn_model.zip,best/M2_E10_lr_3e4/best_model.zip,logs/M2_E10_lr_3e4
+3,1,baseline_m3,M3_E01_baseline_m3,CnnPolicy,0.0001,0.99,32,1.0,0.01,0.1,1000,50000,42,0.4,7.9,121,models/M3_E01_baseline_m3/dqn_model.zip,best/M3_E01_baseline_m3/best_model.zip,logs/M3_E01_baseline_m3
+3,1,baseline_m3,M3_E01_baseline_m3,CnnPolicy,0.0001,0.99,32,1.0,0.01,0.1,100000,50000,42,2.2,26.45,5657,models/M3_E01_baseline_m3/dqn_model.zip,best/M3_E01_baseline_m3/best_model.zip,logs/M3_E01_baseline_m3
+3,2,gamma_90,M3_E02_gamma_90,CnnPolicy,0.0001,0.9,32,1.0,0.01,0.1,100000,50000,42,2.25,25.55,6451,models/M3_E02_gamma_90/dqn_model.zip,best/M3_E02_gamma_90/best_model.zip,logs/M3_E02_gamma_90
+3,3,batch_256,M3_E03_batch_256,CnnPolicy,0.0001,0.99,256,1.0,0.01,0.1,100000,50000,42,2.25,24.6,6023,models/M3_E03_batch_256/dqn_model.zip,best/M3_E03_batch_256/best_model.zip,logs/M3_E03_batch_256
+3,4,eps_end_10,M3_E04_eps_end_10,CnnPolicy,0.0001,0.99,32,1.0,0.1,0.1,100000,50000,42,2.25,26.55,6210,models/M3_E04_eps_end_10/dqn_model.zip,best/M3_E04_eps_end_10/best_model.zip,logs/M3_E04_eps_end_10
+3,5,frac_30,M3_E05_frac_30,CnnPolicy,0.0001,0.99,32,1.0,0.01,0.3,100000,50000,42,2.45,28.3,6031,models/M3_E05_frac_30/dqn_model.zip,best/M3_E05_frac_30/best_model.zip,logs/M3_E05_frac_30
+3,6,lr_75e5,M3_E06_lr_75e5,CnnPolicy,7.5e-05,0.99,32,1.0,0.01,0.1,100000,50000,42,1.5,18.0,6561,models/M3_E06_lr_75e5/dqn_model.zip,best/M3_E06_lr_75e5/best_model.zip,logs/M3_E06_lr_75e5
+3,7,gamma_995,M3_E07_gamma_995,CnnPolicy,0.0001,0.995,32,1.0,0.01,0.1,100000,50000,42,2.2,27.4,5859,models/M3_E07_gamma_995/dqn_model.zip,best/M3_E07_gamma_995/best_model.zip,logs/M3_E07_gamma_995
+3,8,batch_48,M3_E08_batch_48,CnnPolicy,0.0001,0.99,48,1.0,0.01,0.1,100000,50000,42,1.75,21.75,5895,models/M3_E08_batch_48/dqn_model.zip,best/M3_E08_batch_48/best_model.zip,logs/M3_E08_batch_48
+3,9,best_combined_m3,M3_E09_best_combined_m3,CnnPolicy,0.0002,0.995,64,1.0,0.01,0.12,100000,50000,42,2.9,31.15,5107,models/M3_E09_best_combined_m3/dqn_model.zip,best/M3_E09_best_combined_m3/best_model.zip,logs/M3_E09_best_combined_m3
+3,10,mlp_tuned,M3_E10_mlp_tuned,MlpPolicy,0.0005,0.99,64,1.0,0.01,0.1,100000,50000,42,1.25,17.45,6948,models/M3_E10_mlp_tuned/dqn_model.zip,best/M3_E10_mlp_tuned/best_model.zip,logs/M3_E10_mlp_tuned

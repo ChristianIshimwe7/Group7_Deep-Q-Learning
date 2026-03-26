@@ -183,11 +183,11 @@ Source: `grp_mbr4_christian/logs/*`
 
 Best model selected for final group demo:
 
-- Member: 4
-- Run: `M4_E01_baseline_m4`
-- Why chosen: strongest available score among documented runs and best gameplay behavior during testing
-- Model path: `grp_mbr4_christian/models/M4_E01_baseline_m4/dqn_model.zip`
-- Best checkpoint path: `grp_mbr4_christian/best/M4_E01_baseline_m4/best_model.zip`
+- Member: 3
+- Run: `M3_E09_best_combined_m3`
+- Why chosen: strongest documented score (mean reward 2.90) and most effective gameplay behavior observed during final group verification
+- Model path: `models/M3_E09_best_combined_m3/dqn_model.zip`
+- Best checkpoint path: `best/M3_E09_best_combined_m3/best_model.zip`
 
 ## Key Insights for Presentation (Decision-Making)
 
@@ -197,6 +197,6 @@ Best model selected for final group demo:
 - Gamma sensitivity: Very high gamma (0.999 in Member 1 E05) reduced near-term learning quality, but 0.995 (Member 3 E07, E09) was beneficial — a near-1 but not extreme value works best.
 - Batch size: Very large batches (256 in Member 3 E03) slowed per-step updates; moderate sizes (32–96) work best at 100k–500k timestep budgets.
 - Member 3 best result (E09: `lr=2e-4, gamma=0.995, batch=64, eps_fraction=0.12`) closely mirrors successful combined configs of Members 2 and 4.
-- Final choice rationale: Member 4 baseline run produced the strongest practical gameplay for final demo.
+- Final choice rationale: Member 3's experimental run E09 (`best_combined_m3`) produced the strongest overall score and most reliable breakout behavior.
 
 

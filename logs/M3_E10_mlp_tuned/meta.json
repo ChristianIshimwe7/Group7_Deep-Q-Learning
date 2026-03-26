@@ -1,0 +1,22 @@
+{
+  "member": 3,
+  "experiment_number": 10,
+  "experiment_name": "mlp_tuned",
+  "tag": "M3_E10_mlp_tuned",
+  "policy": "MlpPolicy",
+  "learning_rate": 0.0005,
+  "gamma": 0.99,
+  "batch_size": 64,
+  "exploration_initial_eps": 1.0,
+  "exploration_final_eps": 0.01,
+  "exploration_fraction": 0.1,
+  "timesteps": 100000,
+  "buffer_size": 50000,
+  "seed": 42,
+  "mean_reward_last20": 1.25,
+  "mean_episode_len_last20": 17.45,
+  "total_episodes": 6948,
+  "model_path": "models/M3_E10_mlp_tuned/dqn_model.zip",
+  "best_model_path": "best/M3_E10_mlp_tuned/best_model.zip",
+  "log_path": "logs/M3_E10_mlp_tuned"
+}
