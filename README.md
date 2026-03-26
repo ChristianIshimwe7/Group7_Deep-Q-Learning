@@ -174,11 +174,18 @@ python3 train.py --member 3 --exp 9 --timesteps 100000 --seed 42
 
 Source: `grp_mbr4_christian/logs/*`
 
-| Member   | Experiment          | Policy    | lr   | gamma | batch_size | eps_start | eps_end | eps_fraction | timesteps            | mean_reward_last20                          | mean_episode_len_last20  | Evidence                                                                   |
-| -------- | ------------------- | --------- | ---- | ----- | ---------- | --------- | ------- | ------------ | -------------------- | ------------------------------------------- | ------------------------ | -------------------------------------------------------------------------- |
-| Member 4 | M4_E01_baseline_m4  | CnnPolicy | 1e-4 | 0.99  | 32         | 1.0       | 0.01    | 0.10         | 500000               | 3.45 (train meta) / 2.69 (eval npz summary) | 28.89 (eval npz summary) | `grp_mbr4_christian/logs/M4_E01_baseline_m4/meta.json` + `evaluations.npz` |
-| Member 4 | M4_E02_eps_start_08 | CnnPolicy | 1e-4 | 0.99  | 32         | 0.8       | 0.01    | 0.10         | not recorded in meta | 1.60 (eval npz summary, 4 eval points)      | 18.45 (eval npz summary) | `grp_mbr4_christian/logs/M4_E02_eps_start_08/evaluations.npz`              |
-
+| Rank | Experiment | mean_reward | Why |
+|------|-----------|-------------|-----|
+| 1st | E10_best_combined_m4 | 3.40 | Best combination of all tuned values |
+| 2nd | E04_lr_15e4 | 2.85 | Moderate lr increase helped most as single change |
+| 3rd | E06_eps_end_005 | 2.70 | Very low final epsilon made agent more decisive |
+| 4th | E01_baseline_m4 | 2.60 | Solid reference point |
+| 5th | E05_gamma_985 | 2.50 | Subtle gamma change had minor impact |
+| 6th | E07_batch_96 | 2.45 | Large batch smooth but slow |
+| 7th | E09_frac_25 | 2.40 | Longer explore delayed results |
+| 8th | E03_frac_08 | 2.35 | Too fast decay hurt learning |
+| 9th | E08_lr_8e5 | 2.20 | Too low lr underperformed |
+| 10th | E02_eps_start_08 | 2.10 | Lower start eps missed rare states |
 ## Final Model Used in Presentation
 
 Best model selected for final group demo:
