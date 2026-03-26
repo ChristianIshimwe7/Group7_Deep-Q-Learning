@@ -174,18 +174,19 @@ python3 train.py --member 3 --exp 9 --timesteps 100000 --seed 42
 
 Source: `grp_mbr4_christian/logs/*`
 
-| Rank | Experiment | mean_reward | Why |
-|------|-----------|-------------|-----|
-| 1st | E10_best_combined_m4 | 3.40 | Best combination of all tuned values |
-| 2nd | E04_lr_15e4 | 2.85 | Moderate lr increase helped most as single change |
-| 3rd | E06_eps_end_005 | 2.70 | Very low final epsilon made agent more decisive |
-| 4th | E01_baseline_m4 | 2.60 | Solid reference point |
-| 5th | E05_gamma_985 | 2.50 | Subtle gamma change had minor impact |
-| 6th | E07_batch_96 | 2.45 | Large batch smooth but slow |
-| 7th | E09_frac_25 | 2.40 | Longer explore delayed results |
-| 8th | E03_frac_08 | 2.35 | Too fast decay hurt learning |
-| 9th | E08_lr_8e5 | 2.20 | Too low lr underperformed |
-| 10th | E02_eps_start_08 | 2.10 | Lower start eps missed rare states |
+
+| Exp | Experiment Name    | Policy    | lr     | gamma | batch_size | eps_end | eps_fraction | mean_reward_last20 | mean_episode_len_last20 | Observed Behavior                                                                                                   |
+| --- | ------------------ | --------- | ------ | ----- | ---------- | ------- | ------------ | ------------------ | ----------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| E01 | baseline_m3        | CnnPolicy | 1e-4   | 0.97  | 32         | 0.01    | 0.10         | 2.35               | 28.90                   | Stable baseline. Matches Member 1 E01; confirms reproducibility across members.                                     |
+| E02 | gamma_90           | CnnPolicy | 1e-4   | 0.90  | 32         | 0.01    | 0.10         | 1.85               | 21.40                   | Lower gamma caused the agent to heavily discount future rewards, leading to short-sighted play and reduced scores.  |
+| E03 | batch_256          | CnnPolicy | 1e-4   | 0.99  | 256        | 0.01    | 0.10         | 2.30               | 27.10                   | Very large batch stabilised gradient updates but slowed per-step learning; performance slightly below baseline.     |
+| E04 | eps_end_10         | CnnPolicy | 1e-4   | 0.99  | 32         | 0.10    | 0.10         | 1.95               | 22.50                   | High final epsilon kept too much random exploration late in training, preventing full exploitation of learned Q.   |
+| E05 | frac_30            | CnnPolicy | 1e-4   | 0.98  | 32         | 0.01    | 0.30         | 2.35               | 27.80                   | Slower epsilon decay maintained exploration longer; moderate improvement over pure baseline at short timesteps.     |
+| E06 | lr_75e5            | CnnPolicy | 7.5e-5 | 0.99  | 32         | 0.01    | 0.10         | 2.20               | 26.25                   | Slightly lower LR slowed early convergence; reward marginally weaker than baseline, consistent with Member 1 E03.  |
+| E07 | gamma_995          | CnnPolicy | 1e-4   | 0.995 | 32         | 0.01    | 0.10         | 2.55               | 30.20                   | High gamma improved long-term credit assignment at 100k steps, unlike gamma=0.999 which hurt (M1 E05).             |
+| E08 | batch_48           | CnnPolicy | 1e-4   | 0.99  | 48         | 0.01    | 0.10         | 2.50               | 29.35                   | Modest batch increase from 32→48 gave slight stability gains with no throughput penalty; close to baseline.        |
+| E09 | best_combined_m3   | CnnPolicy | 2e-4   | 0.995 | 64         | 0.01    | 0.12         | 2.90               | 33.10                   | **Best Member 3 result.** Combining higher LR, high gamma, and medium batch mirrors effective setups seen in M2 E08. |
+| E10 | mlp_tuned          | MlpPolicy | 5e-4   | 0.99  | 64         | 0.01    | 0.10         | 0.75               | 10.20                   | MlpPolicy cannot process raw Atari frames effectively; confirms CNN is mandatory for pixel-based observation spaces. |
 ## Final Model Used in Presentation
 
 Best model selected for final group demo:
